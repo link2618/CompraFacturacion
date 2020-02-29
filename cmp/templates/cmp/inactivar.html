@@ -1,0 +1,79 @@
+<div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <form class="form-inline" method="POST">
+            {% csrf_token %}
+            <div class="col">
+              <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase">
+                          <div class="alert">
+                              ¿Inactivar {{ obj.descripcion }}?
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <button type="button" class="btn btn-danger" id="btnInactivar"><i class="fa fa-question-circle"></i>Inactivar</button>
+                        <button type="button" class="btn btn-success" onclick="return cerrar_modal()"><span class="fa fa-undo"></span>Cancelar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    //Metodo AJAX
+    $(document).ready(function(){
+        //creamos una variable para el token de seguridad de django
+        // la variable la optenemos viendo el codigo en ejecucion y buscando el input del modal que tenga el name
+        var token = $('input[name=csrfmiddlewaretoken]').val();
+
+        //ahora ejecutamos una configuracion de AJAX
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings){
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    xhr.setRequestHeader("X-CSRFToken", token)
+                }
+            }
+        });
+        //utilizamos un selector de jquery para seleccionar el boton btnInactivar
+        $("#btnInactivar").click(function(e){
+            //vamos a desactivar el envio del formulario
+            e.preventDefault();
+
+            var id = {{ obj.id }};
+
+            //indicamos la ruta de la vista
+            var template = "{% url 'cmp:proveedor_inactivar' obj.id %}"
+            // eviamos el id
+            var data = {"id":id}
+            // formateamos la variable
+            data = JSON.stringify(data);
+
+            //ejecutamos el metodo ajax
+            $.ajax({
+                type: "POST",
+                url: template,
+                data: data,
+                beforeSend: function(xhr, settings){
+                    $.ajaxSettings.beforeSend(xhr, settings);
+                },
+                success: function(response){
+                    console.log(response)
+                    cerrar_modal();
+                    //alert(response);
+                    mensaje(response);
+                },
+                error: function(jqXHR, textStatus, errorThrow){
+                    console.log(textStatus, errorThrow)
+                    mensaje(errorThrow, 'red');
+                    cerrar_modal();
+                }
+            });
+        });
+    });
+</script>

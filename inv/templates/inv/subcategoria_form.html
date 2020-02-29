@@ -1,0 +1,68 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+<form class="form-inline" method="POST">
+    {% csrf_token %}
+    <div class="col-xl-12 col-md-12 mb-12">
+        {# Para elegir el color de de la tarjeta amarillo si va a actulizar y verde si va agregar #}
+        {% if obj  %}
+      <div class="card border-left-warning shadow h-100 py-2">
+        {% else  %}
+      <div class="card border-left-success shadow h-100 py-2">
+        {% endif  %}
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                  {# Para elegir el titulo de la tarjeta #}
+                  {% if obj  %}
+                  Editar Sub Categoría
+                  {% else  %}
+                  Nueva Sub Categoría
+                  {% endif  %}
+              </div>
+              <div class="dropdown-divider"></div>
+              <div class="row">
+                  <div class="col-5">
+                      <div class="input-group">
+                          {{ form.categoria }}
+                      </div>
+                  </div>
+                  <div class="col-5">
+                      <div class="input-group">
+                          <!--
+                          <input type="text" name="descripcion" maxlength="100"  class="form-control" id="id_descripcion"
+                           placeholder="Descripción" value="{% if obj  %}{{ obj.descripcion }}{% endif  %}" required>
+                          -->
+                          {{ form.descripcion }}
+                      </div>
+                  </div>
+                  <div class="col-2">
+                      <div class="input-group">
+                          <!--
+                          <label for="id_estado">Estado</label>
+                          <input type="checkbox" name="estado" class="form-control" id="id_estado"
+                          {% if obj.estado  %}checked{% elif not obj %}checked{% endif  %} >
+                          -->
+                          {{ form.estado }}
+                      </div>
+                  </div>
+                  <!-- {{ form.asp_p }} -->
+              </div>
+              <div class="dropdown-divider"></div>
+              <div class="row">
+                  <div class="col">
+                      <button type="submit" class="btn btn-success"><span class="fa fa-save"></span>Guardar</button>
+                      <a href="{% url 'inv:subcategoria_list' %}" class="btn btn-danger"><span class="fa fa-undo"></span>Cancelar</a>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</form>
+{% endblock page_content %}
+
+{% block js_page %}
+{% endblock js_page %}
