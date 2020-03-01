@@ -155,7 +155,7 @@ def compras(request, compra_id=None):
         descuento = 0
         total = 0
 
-        #Si no se envia compra id no existe el encabezado
+        #Si no se envia compra id no existe el encabezado acabamos de guardar
         if not compra_id:
             #Filtramos el proveedor
             prov=Proveedor.objects.get(pk=proveedor)
@@ -173,7 +173,7 @@ def compras(request, compra_id=None):
             if enc:
                 enc.save()
                 compra_id=enc.id
-        # Si compra id se envia el encabezado existe
+        # Si compra id se envia el encabezado existe vamos a editar
         else:
             enc=ComprasEnc.objects.filter(pk=compra_id).first()
             if enc:

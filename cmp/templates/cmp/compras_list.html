@@ -15,6 +15,9 @@
         {% if perms.cmp.add_comprasenc %}
         <a class="dropdown-item" href="{% url 'cmp:compras_new' %}"><i class="far fa-calendar-plus"></i> Agregar</a>
         {% endif %}
+        {% if perms.cmp.view_comprasenc %}
+        <a class="dropdown-item" href="{% url 'cmp:compras_print_all' %}" target="reportes"><i class="fas fa-print"></i>Listado</a>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -58,6 +61,9 @@
                           <!--
                         <a href="#" onclick="return abrir_modal('{% url 'cmp:proveedor_inactivar' item.id %}')" class="btn btn-danger btn-circle" role="button"><i class="far fa-thumbs-down"></i></a>
                         -->
+                        {% endif %}
+                        {% if perms.cmp.view_comprasenc %}
+                        <a class="btn btn-success btn-circle" href="{% url 'cmp:compras_print_one' item.id %}" target="reportes"><i class="fas fa-print"></i></a>
                         {% endif %}
                     </td>
                 </tr>
