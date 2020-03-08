@@ -1,4 +1,5 @@
 from django.db import models
+from django_userforeignkey.models.fields import UserForeignKey
 
 #Importamos el modelo de usuario
 from django.contrib.auth.models import User
@@ -14,6 +15,24 @@ class ClaseModelo(models.Model):
     # Llave foranea que se optiene del usuario uno (Usuario) a muchos (Modelo)
     uc = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name = "Usuario Crea")
     um = models.IntegerField('Usuario Modifica', blank=True, null=True)
+
+    #Se crea esta clase para que no tenga encuenta este modelo a la hora de la migracion
+    class Meta:
+        abstract = True
+
+
+# Usando UserForeignKey
+class ClaseModelo2(models.Model):
+    estado = models.BooleanField('Estado', default=True)
+    # Automatica mente se pone la fecha cuando se crea con la propiedad 'auto_now_add'
+    fc = models.DateTimeField('Fecha De Creación', auto_now_add=True)
+    # esta fecha se modifica cada vez que se realice una accion 'auto_now'
+    fm = models.DateTimeField('Fecha de Modificacion', auto_now=True)
+    # Llave foranea que se optiene del usuario uno (Usuario) a muchos (Modelo)
+    #uc = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name = "Usuario Crea")
+    #um = models.IntegerField('Usuario Modifica', blank=True, null=True)
+    uc = UserForeignKey(auto_user_add=True, related_name='+', verbose_name = "Usuario Crea")
+    um = UserForeignKey(auto_user=True, related_name='+', verbose_name = "Usuario Modifica")
 
     #Se crea esta clase para que no tenga encuenta este modelo a la hora de la migracion
     class Meta:

@@ -29,6 +29,12 @@
   <!-- XDSoft DateTimePicker -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
 
+  <!-- Bootstrap-table -->
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css">
+
+  <!-- select2 -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
 
 </head>
 
@@ -92,9 +98,15 @@
             {% if perms.inv.view_producto %}
             <a class="collapse-item" href="{% url 'inv:producto_list' %}">Productos</a>
             {% endif %}
+
             <h6 class="collapse-header">Catalogos de Compras:</h6>
             {% if perms.cmp.view_proveedor %}
             <a class="collapse-item" href="{% url 'cmp:proveedor_list' %}">Proveedores</a>
+            {% endif %}
+
+            <h6 class="collapse-header">Catalogos de Facturación:</h6>
+            {% if perms.fac.view_cliente %}
+            <a class="collapse-item" href="{% url 'fac:cliente_list' %}">Clientes</a>
             {% endif %}
           </div>
         </div>
@@ -108,8 +120,13 @@
             <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Entradas:</h6>
             {# la variable perms nos permite controlar los permisos del usuario logeado #}
-            {% if perms.inv.view_comprasenc %}
+            {% if perms.cmp.view_comprasenc %}
             <a class="collapse-item" href="{% url 'cmp:compras_list' %}">Compras</a>
+            {% endif %}
+
+            <h6 class="collapse-header">Salidas:</h6>
+            {% if perms.fac.view_facturaenc %}
+            <a class="collapse-item" href="{% url 'fac:factura_list' %}">Facturas</a>
             {% endif %}
           </div>
         </div>
@@ -485,6 +502,17 @@
   <script src="{% static 'base/vendor/jquery_confirm/jquery-confirm.min.js' %}"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+
+  <!-- Bootstrap-table -->
+  <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table-locale-all.min.js"></script>
+  <script src="https://unpkg.com/tableexport.jquery.plugin/tableExport.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/extensions/export/bootstrap-table-export.min.js"></script>
+  <script src="https://unpkg.com/tableexport.jquery.plugin/libs/jsPDF/jspdf.min.js"></script>
+  <script src="https://unpkg.com/tableexport.jquery.plugin/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js"></script>
+
+  <!-- select2 -->
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
   <script>
   //ponemos el idimoa a nivel global

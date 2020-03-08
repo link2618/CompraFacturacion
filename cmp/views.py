@@ -13,7 +13,6 @@ import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth.decorators import login_required, permission_required
 #decoradores para el LoginRequire y PermissionRequired para trabajarlos en funciones
 from django.contrib.auth.decorators import  login_required, permission_required
 from django.http import HttpResponse
@@ -28,7 +27,7 @@ from inv.models import  Producto
 # Create your views here.
 class ProveedorView(LoginRequiredMixin, SinPrivilegios, ListView):
     # Permiso para ver la vista, mayor seguridad para no saltar el permiso por url
-    permission_required = "inv.view_proveedor"
+    permission_required = "cmp.view_proveedor"
     model = Proveedor
     template_name = "cmp/proveedor_list.html"
     context_object_name = "obj"
@@ -36,7 +35,7 @@ class ProveedorView(LoginRequiredMixin, SinPrivilegios, ListView):
 
 
 class ProveedorNew(SuccessMessageMixin, LoginRequiredMixin, SinPrivilegios, CreateView):
-    permission_required = "inv.add_proveedor"
+    permission_required = "cmp.add_proveedor"
     model = Proveedor
     template_name = "cmp/proveedor_form.html"
     context_object_name = "obj"
@@ -54,7 +53,7 @@ class ProveedorNew(SuccessMessageMixin, LoginRequiredMixin, SinPrivilegios, Crea
 
 
 class ProveedorEdit(SuccessMessageMixin, LoginRequiredMixin, SinPrivilegios, UpdateView):
-    permission_required = "inv.change_proveedor"
+    permission_required = "cmp.change_proveedor"
     model = Proveedor
     template_name = "cmp/proveedor_form.html"
     context_object_name = "obj"
@@ -73,7 +72,7 @@ class ProveedorEdit(SuccessMessageMixin, LoginRequiredMixin, SinPrivilegios, Upd
 
 # Para borrar categoria de la BD, No se recomienda usar esta forma de borrar por que se pierde el historico
 @login_required(login_url='/login/') #seguridad para no ingresar por url
-@permission_required('inv.change_proveedor', login_url='bases:sin_privilegios')#seguridad para no ingresar por url sin permiso
+@permission_required('cmp.change_proveedor', login_url='bases:sin_privilegios')#seguridad para no ingresar por url sin permiso
 def proveedor_inactivar(request, id):
     pro = Proveedor.objects.filter(pk=id).first()
     contexto = {}
@@ -99,14 +98,14 @@ def proveedor_inactivar(request, id):
 #----------------------------------------------- VISTAS DE Compras --------------------------------------
 class ComprasView(LoginRequiredMixin, SinPrivilegios, ListView):
     # Permiso para ver la vista, mayor seguridad para no saltar el permiso por url
-    permission_required = "inv.view_comprasenc"
+    permission_required = "cmp.view_comprasenc"
     model = ComprasEnc
     template_name = "cmp/compras_list.html"
     context_object_name = "obj"
     login_url = "bases:login"
 
 @login_required(login_url='/login/')
-@permission_required('inv.view_comprasenc', login_url='bases:sin_privilegios')
+@permission_required('cmp.view_comprasenc', login_url='bases:sin_privilegios')
 def compras(request, compra_id=None):
     template_name = "cmp/compras.html"
     #Filtramos los productos
