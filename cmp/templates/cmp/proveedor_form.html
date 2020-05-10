@@ -47,3 +47,42 @@
         </form>
     </div>
 </div>
+
+<!-- Para validar el formulario y no de error al intentar agregar un campo ya existente -->
+<script>
+/*
+$(function() {
+    // para que esto funcione e modifico el forms.py
+    //como tenemos 2 posibles formularios capturamos el formulario
+    var url = $("form").attr("action");
+    // leemos el token dandole a network, new, response en el navegador
+    var token = jQuery("[name=csrfmiddlewaretoken]").val();
+
+    //interceptamos el formulario
+    $("form").submit(function(e){
+        //detenemos el formulario
+        e.preventDefault();
+        // alert(token);
+        //nos devuelve un arreglo con los datos del formulario
+        var formData = $("form").serializeArray();
+        // console.log(formData);
+        $.ajax({
+            url: url,
+            method: "POST",
+            headers: {'X-CSRFToken': token },
+            data: formData
+        })
+        .done(function(r,textStatus,xhr){
+            if(xhr.status==200){
+                location.reload(true);
+            }
+            else{
+                mensaje(textStatus);
+            }
+        }).fail(function (error) {
+                mensaje(error.responseText);
+        });
+    });
+});
+*/
+</script>

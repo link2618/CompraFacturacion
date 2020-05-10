@@ -15,7 +15,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 #decoradores para el LoginRequire y PermissionRequired para trabajarlos en funciones
 from django.contrib.auth.decorators import  login_required, permission_required
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import json
 from django.db.models import Sum
 
@@ -23,6 +23,17 @@ from .models import Proveedor, ComprasEnc, ComprasDet
 from .forms import ProveedorForm, ComprasEncForm
 from bases.views import SinPrivilegios
 from inv.models import  Producto
+
+
+class MixinFormInvalid:
+    # para los mensajes de error
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        #si el mensaje esta siendo enviado por ajax
+        if self.request.is_ajax():
+            return JsonResponse(form.errors, status=400)
+        else:
+            return response
 
 # Create your views here.
 class ProveedorView(LoginRequiredMixin, SinPrivilegios, ListView):

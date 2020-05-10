@@ -22,6 +22,22 @@ class ProveedorForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({
                 'class':'form-control'
             })
+    #Para validar los campos del formulario, complemento de la parte del template y la vista (views.py)
+"""
+    def clean(self):
+        try:
+            sc = Proveedor.objects.get(
+                descripcion=self.cleaned_data["descripcion"].upper()
+            )
+            if not self.instance.pk:
+                print("Registro ya existe")
+                raise forms.ValidationError("Registro Ya Existe")
+            elif self.instance.pk != sc.pk:
+                print("Cambio no permitido")
+                raise forms.ValidationError("Cambio No Permitido")
+        except Proveedor.DoesNotExist:
+            pass
+        return self.cleaned_data"""
 
 
 class ComprasEncForm(forms.ModelForm):
